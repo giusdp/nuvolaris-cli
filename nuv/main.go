@@ -25,6 +25,10 @@ import (
 //  go build -ldflags "-X main.CLIVersion=<version>"
 var CLIVersion string = "latest"
 
+// DebugMode makes the logger print the Debug messages.
+// It is set when building nuv-debug with task debug
+var DebugMode string = ""
+
 // ImageTag holds the version of the Docker image used for the nuvolaris
 // operator used in setup
 var ImageTag string = "0.2.0-trinity.22032018"

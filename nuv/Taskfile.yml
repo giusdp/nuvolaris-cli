@@ -61,7 +61,7 @@ tasks:
     deps:
       - vendor
     cmds:
-      - go build -gcflags '-N -l' -mod=vendor -ldflags "-X main.CLIVersion={{.TAG}}" -o {{.NUV}}-debug
+      - go build -gcflags '-N -l' -mod=vendor -ldflags "-X main.CLIVersion={{.TAG}} -X main.DebugMode=active" -o {{.NUV}}-debug
     generates:
       - "{{.NUV}}-debug"
 

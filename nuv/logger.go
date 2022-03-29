@@ -31,9 +31,10 @@ import (
 
 // Logger is the kind cli's log.Logger implementation
 type Logger struct {
-	writer     io.Writer
-	writerMu   sync.Mutex
-	bufferPool *log.BufferPool
+	debugActive bool
+	writer      io.Writer
+	writerMu    sync.Mutex
+	bufferPool  *log.BufferPool
 	// kind special additions
 	isSmartWriter bool
 
@@ -48,12 +49,16 @@ var _ log.Logger = &Logger{}
 
 // Info is part of the log.NuvLogger interface
 func (l *Logger) Debug(message string) {
-	l.debug(message)
+	if l.debugActive {
+		l.debug(message)
+	}
 }
 
 // Debugf is part of the log.NuvLogger interface
 func (l *Logger) Debugf(format string, args ...interface{}) {
-	l.debugf(format, args...)
+	if l.debugActive {
+		l.debugf(format, args...)
+	}
 }
 
 // Info is part of the log.NuvLogger interface
@@ -126,6 +131,7 @@ func NewLogger() *Logger {
 		bufferPool: log.NewBufferPool(),
 	}
 	l.setWriter(writer)
+	l.debugActive = DebugMode == "active"
 
 	return l
 }
